@@ -28,25 +28,25 @@ version = "2021.1"
 
 project {
 
-    buildType(Build)
+    buildType(Build)  // this is the same thing as the build configuration from the UI teamcity
 }
 
 object Build : BuildType({
     name = "Build"
 
     vcs {
-        root(DslContext.settingsRoot)
+        root(DslContext.settingsRoot) //this means the VCS root for your project is the same where your settings.kts file lives
     }
 
     steps {
         maven {
-            goals = "clean test"
+            goals = "clean package"                              // here you have a build step
             runnerArgs = "-Dmaven.test.failure.ignore=true"
         }
     }
 
     triggers {
         vcs {
-        }
+        }                          //here every commit and every branch will result in a build
     }
 })
