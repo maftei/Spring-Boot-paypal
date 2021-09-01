@@ -1,5 +1,7 @@
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.freeDiskSpace
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.maven
+import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.VcsTrigger
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 
 /*
@@ -32,21 +34,31 @@ project {
 }
 
 object Build : BuildType({
-    name = "Build"
+    name = "Build Spring"
 
     vcs {
         root(DslContext.settingsRoot) //this means the VCS root for your project is the same where your settings.kts file lives
     }
+     features {
+         freeDiskSpace {
+             failBuild = true         // default is 3gb, if you don't have 3gb the build will failed
+         }
+
+     }
 
     steps {
         maven {
-            goals = "clean package"                              // here you have a build step
+            name = "MyStep"
+            goals = "clean test"
             runnerArgs = "-Dmaven.test.failure.ignore=true"
         }
     }
 
     triggers {
         vcs {
-        }                          //here every commit and every branch will result in a build
+            quietPeriodMode = VcsTrigger.QuietPeriodMode.USE_CUSTOM
+            quietPeriod = 30
+        }
+        //here every commit and every branch will result in a build
     }
 })
