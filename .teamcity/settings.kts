@@ -33,9 +33,15 @@ project {
     buildType(Build)
 // this is the same thing as the build configuration from the UI teamcity
     buildType(Package)
+    buildType(FastTest)
+    buildType(SlowTest)
 
     sequential {
         buildType(Build)
+        parallel {
+            buildType(FastTest)
+            buildType(SlowTest)
+        }
         buildType(Package)
     }
 }
@@ -58,6 +64,66 @@ object Build : BuildType({
             name = "MyStep"
             goals = "clean compile"
             runnerArgs = "-Dmaven.test.failure.ignore=true"
+        }
+    }
+
+//    triggers {
+//        vcs {
+//            quietPeriodMode = VcsTrigger.QuietPeriodMode.USE_CUSTOM
+//            quietPeriod = 30
+//        }
+//        //here every commit and every branch will result in a build
+//    }
+})
+
+object FastTest : BuildType({
+    name = "Fast Test"
+
+    vcs {
+        root(DslContext.settingsRoot) //this means the VCS root for your project is the same where your settings.kts file lives
+    }
+    features {
+        freeDiskSpace {
+            failBuild = true         // default is 3gb, if you don't have 3gb the build will failed
+        }
+
+    }
+
+    steps {
+        maven {
+            name = "MyStep"
+            goals = "clean test"
+            runnerArgs = "-Dmaven.test.failure.ignore=true -Dtest=*test"
+        }
+    }
+
+//    triggers {
+//        vcs {
+//            quietPeriodMode = VcsTrigger.QuietPeriodMode.USE_CUSTOM
+//            quietPeriod = 30
+//        }
+//        //here every commit and every branch will result in a build
+//    }
+})
+
+object SlowTest : BuildType({
+    name = "Slow Test"
+
+    vcs {
+        root(DslContext.settingsRoot) //this means the VCS root for your project is the same where your settings.kts file lives
+    }
+    features {
+        freeDiskSpace {
+            failBuild = true         // default is 3gb, if you don't have 3gb the build will failed
+        }
+
+    }
+
+    steps {
+        maven {
+            name = "MyStep"
+            goals = "clean test"
+            runnerArgs = "-Dmaven.test.failure.ignore=true -DskipTests"
         }
     }
 
