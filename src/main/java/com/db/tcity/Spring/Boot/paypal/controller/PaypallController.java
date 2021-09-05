@@ -10,7 +10,7 @@ import com.db.tcity.Spring.Boot.paypal.service.PaypalService;
 public class PaypallController {
 	
 	@Autowired
-	PaypalService service;
+	 PaypalService service;
 	
 	
 	@GetMapping("/")
