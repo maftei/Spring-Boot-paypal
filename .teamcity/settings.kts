@@ -30,12 +30,12 @@ version = "2021.1"
 
 project {
 
-    buildType(Maven("Package" ,"clean package", "-DskipTests"))
-// this is the same thing as the build configuration from the UI teamcity
-   // buildType(Package)
-    buildType(Maven("Build Spring" ,"clean compile"))
-    buildType(Maven("Fast Test" ,"clean compile","-Dmaven.test.failure.ignore=true -Dtest=*test"))
-    buildType(Maven("Slow Test" ,"clean compile","DskipTests"))
+//    buildType(Maven("Package" ,"clean package", "-DskipTests"))
+//// this is the same thing as the build configuration from the UI teamcity
+//   // buildType(Package)
+//    buildType(Maven("Build Spring" ,"clean compile"))
+//    buildType(Maven("Fast Test" ,"clean compile","-Dmaven.test.failure.ignore=true -Dtest=*test"))
+//    buildType(Maven("Slow Test" ,"clean compile","DskipTests"))
 
 
 
