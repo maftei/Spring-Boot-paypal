@@ -44,7 +44,7 @@ project {
         buildType(Maven("Build Spring" ,"clean compile"))
         parallel {
             buildType(Maven("Fast Test" ,"clean compile","-Dmaven.test.failure.ignore=true -Dtest=*test"))
-            buildType(Maven("Slow Test" ,"clean compile","DskipTests"))
+            buildType(Maven("Slow Test" ,"clean","DskipTests"))
         }
         buildType(Maven("Package" ,"clean package", "-DskipTests"))
     }.buildTypes()
