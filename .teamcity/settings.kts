@@ -51,9 +51,7 @@ project {
     bts.forEach{buildType (it)}
     bts.last().triggers{
         vcs{
-//tbd
-            //tst
-            //test4
+
         }
     }
 }
