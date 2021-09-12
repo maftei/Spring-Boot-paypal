@@ -11,6 +11,12 @@ To apply the patch, change the buildType with id = 'BuildSpring'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("BuildSpring")) {
+    params {
+        add {
+            param("env.JDK_18", "1.8")
+        }
+    }
+
     expectSteps {
         maven {
             goals = "clean compile"
